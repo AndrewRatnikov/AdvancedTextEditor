@@ -1,28 +1,42 @@
-import React, {Component} from 'react';
+// Core
+import React, {useEffect, useContext} from 'react';
+
+// Styles
 import './App.css';
-import ControlPanel from "./control-panel/ControlPanel";
-import FileZone from "./file-zone/FileZone";
+
+// Context
+import { DataContext } from './context';
+
+// Action
+import { addText } from './actions'
+
+// Components
+import ControlPanel from "./ControlPanel/ControlPanel";
+import FileZone from "./FileZone/FileZone";
+
+// Mocks
 import getMockText from './text.service';
 
-class App extends Component {
-    getText() {
+const App = () => {
+    const { state, dispatch } = useContext(DataContext)
+
+    useEffect(() => {
         getMockText().then(function (result) {
-            console.log(result);
+            dispatch(addText(result.split(' ')))
         });
-    }
-    render() {
-        return (
-            <div className="App">
-                <header>
-                    <span>Simple Text Editor</span>
-                </header>
-                <main>
-                    <ControlPanel/>
-                    <FileZone/>
-                </main>
-            </div>
-        );
-    }
+    }, [dispatch]);
+
+    return (
+        <div className="App">
+            <header>
+                <span>Simple Text Editor</span>
+            </header>
+            <main>
+                <ControlPanel />
+                <FileZone />
+            </main>
+        </div>
+    );
 }
 
 export default App;
