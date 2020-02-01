@@ -1,27 +1,25 @@
 // Core
-import React, { Component } from 'react';
+import React from 'react';
 
 // Styles
 import './ControlPanel.css';
 
-class ControlPanel extends Component {
-    render() {
-        return (
-            <div id="control-panel">
-                <div id="format-actions">
-                    <button className="format-action" type="button">
-                        <b>B</b>
-                    </button>
-                    <button className="format-action" type="button">
-                        <i>I</i>
-                    </button>
-                    <button className="format-action" type="button">
-                        <u>U</u>
-                    </button>
-                </div>
+const ControlPanel = ({ setFont }) => {
+    return (
+        <div id="control-panel">
+            <div id="format-actions">
+                <button className="format-action" type="button" onClick={setFont('bold')}>
+                    <b>B</b>
+                </button>
+                <button className="format-action" type="button" onClick={setFont('italic')}>
+                    <i>I</i>
+                </button>
+                <button className="format-action" type="button" onClick={setFont('underline')}>
+                    <u>U</u>
+                </button>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 export default ControlPanel;

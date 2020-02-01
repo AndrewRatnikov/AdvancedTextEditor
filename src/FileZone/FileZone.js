@@ -1,5 +1,6 @@
 // Core
 import React, { useContext } from 'react';
+import classNames from 'classnames';
 
 // Styles
 import './FileZone.css';
@@ -7,16 +8,24 @@ import './FileZone.css';
 // Context
 import { DataContext } from '../context';
 
-const FileZone = () => {
-    const { state: { data } } = useContext(DataContext);
+const FileZone = ({ onWordClickHandler, wordId }) => {
+    const { state } = useContext(DataContext);
 
     return (
         <div id="file-zone">
             <div id="file">
                 {
-                    data.map((item, i) => (
-                        <span key={i} className="word">
-                            {`${item} `}
+                    state.data.map(item => (
+                        <span
+                            key={item.id}
+                            className={classNames({
+                                'word__active': wordId === item.id,
+                                'word__bold': item.bold,
+                                'word__italic': item.italic,
+                                'word__underline': item.underline
+                            })}
+                            onClick={onWordClickHandler(item.id)}>
+                            {`${item.text} `}
                         </span>
                     ))
                 }
