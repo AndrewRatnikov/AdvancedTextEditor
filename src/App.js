@@ -16,29 +16,12 @@ import FileZone from "./FileZone/FileZone";
 
 // Mocks
 import getMockText from './text.service';
+import SynonymsZone from './SynonnymsZone/SynonymsZone';
 
 const App = () => {
     const { state, dispatch } = useContext(DataContext);
     const [wordId, setWordId] = useState();
     const [synonyms, setSynonyms] = useState([])
-
-    const getSynonyms = useCallback(text => {
-        fetch(`https://api.datamuse.com/words?rel_syn=${text}`)
-        .then(response => response.json())
-        .then(json =>setSynonyms(json));
-    });
-
-    const onWordClickHandler = useCallback(id => e => {
-        getSynonyms(e.target.innerText.trim())
-        setWordId(id)
-    });
-
-    const setFont = useCallback(font => () => {
-        const index = state.data.findIndex(item => item.id === wordId);
-        const newData = [...state.data];
-        newData[index][font] = !newData[index][font];
-        dispatch(addText(newData));
-    })
 
     useEffect(() => {
         getMockText().then(function (result) {
@@ -56,6 +39,36 @@ const App = () => {
         });
     }, [dispatch]);
 
+    const getSynonyms = useCallback(text => {
+        fetch(`https://api.datamuse.com/words?rel_syn=${text}`)
+        .then(response => response.json())
+        .then(json =>setSynonyms(json));
+    }, []);
+
+    const onWordClickHandler = useCallback(id => e => {
+        getSynonyms(e.target.innerText.trim())
+        setWordId(id)
+    }, []);
+
+    const setFont = useCallback(font => () => {
+        const index = state.data.findIndex(item => item.id === wordId);
+        const newData = [...state.data];
+        newData[index][font] = !newData[index][font];
+        dispatch(addText(newData));
+    }, [wordId]);
+
+    const onSynonymClickHandler = useCallback(e => {
+        replaceSynonym(e.target.innerText)
+    }, [wordId]);
+
+    const replaceSynonym = useCallback(synonym => {
+        const index = state.data.findIndex(item => item.id === wordId);
+        console.log(wordId, index)
+        const newData = [...state.data];
+        newData[index].text = synonym;
+        dispatch(addText(newData));
+    }, [wordId]);
+
     return (
         <div className="App">
             <header>
@@ -66,6 +79,7 @@ const App = () => {
                 <FileZone
                     onWordClickHandler={onWordClickHandler}
                     wordId={wordId} />
+                <SynonymsZone synonyms={synonyms} onSynonymClickHandler={onSynonymClickHandler} />
             </main>
         </div>
     );

@@ -1,0 +1,12 @@
+#synonyms {
+    position: absolute;
+    top: 25px;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #e4dede;
+    padding: 20px;
+}
+
+#synonyms li:hover {
+    background-color: #B0E0E6;
+}
