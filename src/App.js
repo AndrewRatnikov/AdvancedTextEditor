@@ -63,7 +63,6 @@ const App = () => {
 
     const replaceSynonym = useCallback(synonym => {
         const index = state.data.findIndex(item => item.id === wordId);
-        console.log(wordId, index)
         const newData = [...state.data];
         newData[index].text = synonym;
         dispatch(addText(newData));
