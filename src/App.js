@@ -18,7 +18,7 @@ import FileZone from "./FileZone/FileZone";
 import getMockText from './text.service';
 
 const App = () => {
-    const { state, dispatch } = useContext(DataContext)
+    const { dispatch } = useContext(DataContext)
 
     useEffect(() => {
         getMockText().then(function (result) {
